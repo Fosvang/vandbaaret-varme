@@ -1,4 +1,4 @@
-# Vandbaaret Varme
+# Centralvarme
 
 Home Assistant-loesning til overvaagning af vandbaaren gulvvarme og radiatorzoner.
 
@@ -42,23 +42,23 @@ Radiatorzoner:
 ## Filer
 
 ```text
-VandbaaretVarme/
-|-- README.md
+Centralvarme/
 |-- docs/
 |   `-- Brugervejledning.md
-`-- home-assistant/
-    |-- configuration_snippet.yaml
+|-- home-assistant/
+    |-- configuration.yaml
     |-- centralvarme_dashboard.yaml
     `-- centralvarme_package.yaml
+`-- README.md
 ```
 
 ## Installation
 
 1. Kopier `home-assistant/centralvarme_package.yaml` til Home Assistant `packages/`.
-2. Kopier `home-assistant/centralvarme_dashboard.yaml` til `lovelace/dashboards/centralvarme_dashboard.yaml`, eller tilpas stien i `configuration_snippet.yaml`.
-3. Tilfoej indholdet fra `home-assistant/configuration_snippet.yaml` til din `configuration.yaml`.
+2. Kopier `home-assistant/centralvarme_dashboard.yaml` til `lovelace/dashboards/centralvarme_dashboard.yaml`, eller tilpas stien i `home-assistant/configuration.yaml`.
+3. Brug indholdet fra `home-assistant/configuration.yaml` som reference til din Home Assistant `configuration.yaml`.
 4. Genstart Home Assistant.
-5. Aabn dashboardet `Vandbaaret Varme`.
+5. Aabn dashboardet `Centralvarme`.
 6. Udfyld sensor- og aktuatorfelter i fanen `Opsaetning`.
 
 ## Typiske entity IDs

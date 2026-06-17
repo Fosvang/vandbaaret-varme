@@ -1,5 +1,5 @@
-# Home Assistant package: Vandbaaret Varme
-# Placering: packages/vandbaaret_varme_package.yaml
+# Home Assistant package: Centralvarme
+# Placering: packages/centralvarme_package.yaml
 #
 # Udfyld input_text entiteterne med de rigtige entity_id'er fra installationen.
 # Zone aktuator kan vaere switch.*, binary_sensor.* eller climate.*.
@@ -251,7 +251,7 @@ script:
         data:
           title: "Vandbaaret varme test"
           message: >
-            Test fra Vandbaaret Varme. Status: {{ states('sensor.vv_status') }}.
+            Test fra Centralvarme. Status: {{ states('sensor.vv_status') }}.
 
   vv_sms_test:
     alias: VV SMS test
@@ -261,7 +261,7 @@ script:
         data:
           title: "Vandbaaret varme SMS test"
           message: >
-            SMS-test fra Vandbaaret Varme. Status: {{ states('sensor.vv_status') }}.
+            SMS-test fra Centralvarme. Status: {{ states('sensor.vv_status') }}.
 
   vv_send_alarm:
     alias: VV send alarm
@@ -281,8 +281,8 @@ script:
             {% set raw = states('input_text.vv_sms_modtager') %}
             {% set normalized = raw | replace(';', ',') | replace('\n', ',') %}
             {{ normalized.split(',') | map('trim') | reject('eq', '') | list }}
-          alarm_title: "{{ title | default('Vandbaaret Varme') }}"
-          alarm_message: "{{ message | default('Alarm fra Vandbaaret Varme') }}"
+          alarm_title: "{{ title | default('Centralvarme') }}"
+          alarm_message: "{{ message | default('Alarm fra Centralvarme') }}"
       - choose:
           - conditions:
               - condition: state

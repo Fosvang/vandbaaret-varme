@@ -1,8 +1,8 @@
-title: Vandbaaret Varme
+title: Centralvarme
 icon: mdi:home-thermometer
 views:
   - title: Overblik
-    path: vandbaaret-varme
+    path: centralvarme
     icon: mdi:view-dashboard
     type: masonry
     badges:
@@ -155,7 +155,7 @@ views:
               service: script.vv_alarm_reset
 
   - title: Statistik
-    path: vandbaaret-varme-statistik
+    path: centralvarme-statistik
     icon: mdi:chart-line
     type: masonry
     cards:
@@ -210,7 +210,7 @@ views:
             name: Zone 8
 
   - title: Opsaetning
-    path: vandbaaret-varme-opsaetning
+    path: centralvarme-opsaetning
     icon: mdi:tune-variant
     type: masonry
     cards:

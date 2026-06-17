@@ -5,9 +5,9 @@ homeassistant:
 
 lovelace:
   dashboards:
-    vandbaaret-varme-dashboard:
+    centralvarme-dashboard:
       mode: yaml
-      title: Vandbaaret Varme
+      title: Centralvarme
       icon: mdi:home-thermometer
       show_in_sidebar: true
       filename: lovelace/dashboards/centralvarme_dashboard.yaml
@@ -27,6 +27,6 @@ rest_command:
         'sender': sender,
         'message': message,
         'recipient': clean_recipient | int(0),
-        'label': 'vandbaaret_varme',
+        'label': 'centralvarme',
         'priority': priority
       } | to_json }}

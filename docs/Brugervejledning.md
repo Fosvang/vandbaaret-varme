@@ -1,6 +1,6 @@
-# Brugervejledning til Vandbaaret Varme
+# Brugervejledning til Centralvarme
 
-Vandbaaret Varme er en Home Assistant-loesning til overvaagning af vandbaaren gulvvarme og radiatorzoner. Appen viser temperaturer, aktuatorstatus, komfortstatus, alarmer og historik for op til 8 zoner.
+Centralvarme er en Home Assistant-loesning til overvaagning af vandbaaren gulvvarme og radiatorzoner. Appen viser temperaturer, aktuatorstatus, komfortstatus, alarmer og historik for op til 8 zoner.
 
 Loesningen styrer ikke setpunkter direkte. Den overvager, om rummene holder de valgte temperaturgraenser, og om gulvvarmeaktuatorer eller radiatorventiler faktisk er aktive.
 
@@ -22,23 +22,23 @@ Loesningen styrer ikke setpunkter direkte. Den overvager, om rummene holder de v
 home-assistant/
 |-- centralvarme_package.yaml
 |-- centralvarme_dashboard.yaml
-`-- configuration_snippet.yaml
+`-- configuration.yaml
 ```
 
 `centralvarme_package.yaml` opretter helpers, scripts, template-sensorer, binary sensors og automationer.
 
 `centralvarme_dashboard.yaml` er Lovelace-dashboardet med fanerne `Overblik`, `Statistik` og `Opsaetning`.
 
-`configuration_snippet.yaml` viser de linjer, der skal ind i Home Assistant `configuration.yaml`.
+`configuration.yaml` viser de linjer, der skal ind i Home Assistant `configuration.yaml`.
 
 ## Installation
 
 1. Aktiver packages i Home Assistant, hvis det ikke allerede er gjort.
 2. Kopier `centralvarme_package.yaml` til din `packages/` mappe.
-3. Kopier `centralvarme_dashboard.yaml` til den dashboard-sti, der er angivet i `configuration_snippet.yaml`.
-4. Tilfoej dashboard-konfigurationen fra `configuration_snippet.yaml` til `configuration.yaml`.
+3. Kopier `centralvarme_dashboard.yaml` til den dashboard-sti, der er angivet i `home-assistant/configuration.yaml`.
+4. Tilfoej dashboard-konfigurationen fra `home-assistant/configuration.yaml` til din Home Assistant `configuration.yaml`.
 5. Genstart Home Assistant.
-6. Aabn dashboardet `Vandbaaret Varme`.
+6. Aabn dashboardet `Centralvarme`.
 7. Gaa til fanen `Opsaetning` og udfyld zonefelterne.
 
 ## Configuration snippet
@@ -51,9 +51,9 @@ homeassistant:
 
 lovelace:
   dashboards:
-    vandbaaret-varme-dashboard:
+    centralvarme-dashboard:
       mode: yaml
-      title: Vandbaaret Varme
+      title: Centralvarme
       icon: mdi:home-thermometer
       show_in_sidebar: true
       filename: lovelace/dashboards/centralvarme_dashboard.yaml
