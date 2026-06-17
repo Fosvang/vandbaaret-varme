@@ -1,0 +1,332 @@
+title: Vandbaaret Varme
+icon: mdi:home-thermometer
+views:
+  - title: Overblik
+    path: vandbaaret-varme
+    icon: mdi:view-dashboard
+    type: masonry
+    badges:
+      - entity: sensor.vv_status
+        name: Status
+      - entity: binary_sensor.vv_alarm_aktiv
+        name: Alarm
+      - entity: sensor.vv_drift_score
+        name: Drift score
+      - entity: input_select.vv_anlaegstype
+        name: Anlaeg
+    cards:
+      - type: entities
+        title: Driftstatus
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: input_boolean.vv_overvaagning_aktiv
+            name: Overvaagning
+          - entity: input_select.vv_anlaegstype
+            name: Anlaegstype
+          - entity: input_select.vv_driftvalg
+            name: Driftvalg
+          - entity: sensor.vv_status
+            name: Aktuel status
+          - entity: sensor.vv_alarm_arsag
+            name: Alarmarsag
+          - entity: sensor.vv_anbefaling
+            name: Anbefaling
+
+      - type: gauge
+        name: Drift score
+        entity: sensor.vv_drift_score
+        min: 0
+        max: 100
+        severity:
+          red: 0
+          yellow: 70
+          green: 90
+
+      - type: entities
+        title: Zoner
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.vv_zone_1_status
+            name: Zone 1 status
+          - entity: sensor.vv_zone_1_temperatur
+            name: Zone 1 temperatur
+          - entity: binary_sensor.vv_zone_1_aktuator_aaben
+            name: Zone 1 aktuator aaben
+          - entity: sensor.vv_zone_2_status
+            name: Zone 2 status
+          - entity: sensor.vv_zone_2_temperatur
+            name: Zone 2 temperatur
+          - entity: binary_sensor.vv_zone_2_aktuator_aaben
+            name: Zone 2 aktuator aaben
+          - entity: sensor.vv_zone_3_status
+            name: Zone 3 status
+          - entity: sensor.vv_zone_3_temperatur
+            name: Zone 3 temperatur
+          - entity: binary_sensor.vv_zone_3_aktuator_aaben
+            name: Zone 3 aktuator aaben
+          - entity: sensor.vv_zone_4_status
+            name: Zone 4 status
+          - entity: sensor.vv_zone_4_temperatur
+            name: Zone 4 temperatur
+          - entity: binary_sensor.vv_zone_4_aktuator_aaben
+            name: Zone 4 aktuator aaben
+          - entity: sensor.vv_zone_5_status
+            name: Zone 5 status
+          - entity: sensor.vv_zone_5_temperatur
+            name: Zone 5 temperatur
+          - entity: binary_sensor.vv_zone_5_aktuator_aaben
+            name: Zone 5 aktuator aaben
+          - entity: sensor.vv_zone_6_status
+            name: Zone 6 status
+          - entity: sensor.vv_zone_6_temperatur
+            name: Zone 6 temperatur
+          - entity: binary_sensor.vv_zone_6_aktuator_aaben
+            name: Zone 6 aktuator aaben
+          - entity: sensor.vv_zone_7_status
+            name: Zone 7 status
+          - entity: sensor.vv_zone_7_temperatur
+            name: Zone 7 temperatur
+          - entity: binary_sensor.vv_zone_7_aktuator_aaben
+            name: Zone 7 aktuator aaben
+          - entity: sensor.vv_zone_8_status
+            name: Zone 8 status
+          - entity: sensor.vv_zone_8_temperatur
+            name: Zone 8 temperatur
+          - entity: binary_sensor.vv_zone_8_aktuator_aaben
+            name: Zone 8 aktuator aaben
+
+      - type: history-graph
+        title: Temperaturudvikling 24 timer
+        hours_to_show: 24
+        entities:
+          - entity: sensor.vv_zone_1_temperatur
+            name: Zone 1
+          - entity: sensor.vv_zone_2_temperatur
+            name: Zone 2
+          - entity: sensor.vv_zone_3_temperatur
+            name: Zone 3
+          - entity: sensor.vv_zone_4_temperatur
+            name: Zone 4
+          - entity: sensor.vv_zone_5_temperatur
+            name: Zone 5
+          - entity: sensor.vv_zone_6_temperatur
+            name: Zone 6
+          - entity: sensor.vv_zone_7_temperatur
+            name: Zone 7
+          - entity: sensor.vv_zone_8_temperatur
+            name: Zone 8
+
+      - type: entities
+        title: Alarmer
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: binary_sensor.vv_alarm_aktiv
+            name: Alarm aktiv
+          - entity: binary_sensor.vv_sensorfejl
+            name: Sensorfejl
+          - entity: binary_sensor.vv_zone_temperatur_alarm
+            name: Zone temperatur alarm
+
+      - type: horizontal-stack
+        cards:
+          - type: button
+            name: Kvitter
+            icon: mdi:check-circle
+            entity: input_boolean.vv_alarm_ack
+            tap_action:
+              action: call-service
+              service: script.vv_alarm_kvitter
+          - type: button
+            name: Pause 2t
+            icon: mdi:bell-off
+            entity: input_boolean.vv_alarm_muted
+            tap_action:
+              action: call-service
+              service: script.vv_alarm_pause_2h
+          - type: button
+            name: Reset
+            icon: mdi:alert-remove
+            entity: input_boolean.vv_alarm_latch
+            tap_action:
+              action: call-service
+              service: script.vv_alarm_reset
+
+  - title: Statistik
+    path: vandbaaret-varme-statistik
+    icon: mdi:chart-line
+    type: masonry
+    cards:
+      - type: entities
+        title: Statistikvalg
+        show_header_toggle: false
+        entities:
+          - entity: input_select.vv_statistik_periode
+            name: Valgt periode
+          - entity: sensor.vv_drift_score
+            name: Aktuel drift score
+          - entity: sensor.vv_status
+            name: Aktuel status
+
+      - type: statistics-graph
+        title: Temperaturer 7 dage
+        days_to_show: 7
+        chart_type: line
+        stat_types:
+          - mean
+          - min
+          - max
+        entities:
+          - sensor.vv_zone_1_temperatur
+          - sensor.vv_zone_2_temperatur
+          - sensor.vv_zone_3_temperatur
+          - sensor.vv_zone_4_temperatur
+          - sensor.vv_zone_5_temperatur
+          - sensor.vv_zone_6_temperatur
+          - sensor.vv_zone_7_temperatur
+          - sensor.vv_zone_8_temperatur
+
+      - type: history-graph
+        title: Aktuatorhistorik 7 dage
+        hours_to_show: 168
+        entities:
+          - entity: binary_sensor.vv_zone_1_aktuator_aaben
+            name: Zone 1
+          - entity: binary_sensor.vv_zone_2_aktuator_aaben
+            name: Zone 2
+          - entity: binary_sensor.vv_zone_3_aktuator_aaben
+            name: Zone 3
+          - entity: binary_sensor.vv_zone_4_aktuator_aaben
+            name: Zone 4
+          - entity: binary_sensor.vv_zone_5_aktuator_aaben
+            name: Zone 5
+          - entity: binary_sensor.vv_zone_6_aktuator_aaben
+            name: Zone 6
+          - entity: binary_sensor.vv_zone_7_aktuator_aaben
+            name: Zone 7
+          - entity: binary_sensor.vv_zone_8_aktuator_aaben
+            name: Zone 8
+
+  - title: Opsaetning
+    path: vandbaaret-varme-opsaetning
+    icon: mdi:tune-variant
+    type: masonry
+    cards:
+      - type: entities
+        title: Sensorregistrering
+        show_header_toggle: false
+        entities:
+          - entity: input_text.vv_zone_1_temp_sensor
+            name: Zone 1 temperatur sensor
+          - entity: input_text.vv_zone_1_aktuator_entity
+            name: Zone 1 aktuator/TRV
+          - entity: input_text.vv_zone_2_temp_sensor
+            name: Zone 2 temperatur sensor
+          - entity: input_text.vv_zone_2_aktuator_entity
+            name: Zone 2 aktuator/TRV
+          - entity: input_text.vv_zone_3_temp_sensor
+            name: Zone 3 temperatur sensor
+          - entity: input_text.vv_zone_3_aktuator_entity
+            name: Zone 3 aktuator/TRV
+          - entity: input_text.vv_zone_4_temp_sensor
+            name: Zone 4 temperatur sensor
+          - entity: input_text.vv_zone_4_aktuator_entity
+            name: Zone 4 aktuator/TRV
+          - entity: input_text.vv_zone_5_temp_sensor
+            name: Zone 5 temperatur sensor
+          - entity: input_text.vv_zone_5_aktuator_entity
+            name: Zone 5 aktuator/TRV
+          - entity: input_text.vv_zone_6_temp_sensor
+            name: Zone 6 temperatur sensor
+          - entity: input_text.vv_zone_6_aktuator_entity
+            name: Zone 6 aktuator/TRV
+          - entity: input_text.vv_zone_7_temp_sensor
+            name: Zone 7 temperatur sensor
+          - entity: input_text.vv_zone_7_aktuator_entity
+            name: Zone 7 aktuator/TRV
+          - entity: input_text.vv_zone_8_temp_sensor
+            name: Zone 8 temperatur sensor
+          - entity: input_text.vv_zone_8_aktuator_entity
+            name: Zone 8 aktuator/TRV
+
+      - type: entities
+        title: Temperaturgraenser
+        show_header_toggle: false
+        entities:
+          - entity: input_number.vv_zone_temp_min
+            name: Min rumtemperatur
+          - entity: input_number.vv_zone_temp_max
+            name: Maks rumtemperatur
+          - entity: input_number.vv_alarm_repeat_min
+            name: Gentag alarm hvert
+
+      - type: entities
+        title: Driftvalg
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: input_boolean.vv_overvaagning_aktiv
+            name: Overvaagning aktiv
+          - entity: input_select.vv_anlaegstype
+            name: Anlaegstype
+          - entity: input_select.vv_driftvalg
+            name: Driftvalg
+          - entity: input_select.vv_statistik_periode
+            name: Standard statistikperiode
+
+      - type: entities
+        title: Notifikationer og SMS
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: input_boolean.vv_notifikation_aktiv
+            name: Notifikation aktiv
+          - entity: input_text.vv_notify_service
+            name: Notifikation service
+          - entity: sensor.vv_notifikation_status
+            name: Notifikation status
+          - entity: input_boolean.vv_sms_aktiv
+            name: SMS aktiv
+          - entity: input_text.vv_sms_service
+            name: SMS service
+          - entity: input_text.vv_sms_sender
+            name: SMS afsender
+          - entity: input_select.vv_sms_prioritet
+            name: SMS prioritet
+          - entity: input_text.vv_sms_modtager
+            name: SMS modtagere
+          - entity: sensor.vv_sms_status
+            name: SMS status
+
+      - type: horizontal-stack
+        cards:
+          - type: button
+            name: Test alarm
+            icon: mdi:bell-ring
+            tap_action:
+              action: call-service
+              service: script.vv_alarm_test
+          - type: button
+            name: Test SMS
+            icon: mdi:message-processing
+            tap_action:
+              action: call-service
+              service: script.vv_sms_test
+
+      - type: entities
+        title: Systemkontrol
+        show_header_toggle: false
+        state_color: true
+        entities:
+          - entity: sensor.vv_status
+            name: Status
+          - entity: sensor.vv_alarm_arsag
+            name: Alarmarsag
+          - entity: sensor.vv_anbefaling
+            name: Anbefaling
+          - entity: binary_sensor.vv_sensorfejl
+            name: Sensorfejl
+          - entity: sensor.vv_drift_score
+            name: Drift score

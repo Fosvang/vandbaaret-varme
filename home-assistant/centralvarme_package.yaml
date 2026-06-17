@@ -1,0 +1,774 @@
+# Home Assistant package: Vandbaaret Varme
+# Placering: packages/vandbaaret_varme_package.yaml
+#
+# Udfyld input_text entiteterne med de rigtige entity_id'er fra installationen.
+# Zone aktuator kan vaere switch.*, binary_sensor.* eller climate.*.
+
+input_text:
+  vv_zone_1_temp_sensor:
+    name: VV - zone 1 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.stue_temperatur
+
+  vv_zone_1_aktuator_entity:
+    name: VV - zone 1 aktuator eller TRV
+    icon: mdi:valve
+    initial: switch.stue_gulvvarme
+
+  vv_zone_2_temp_sensor:
+    name: VV - zone 2 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.koekken_temperatur
+
+  vv_zone_2_aktuator_entity:
+    name: VV - zone 2 aktuator eller TRV
+    icon: mdi:valve
+    initial: switch.koekken_gulvvarme
+
+  vv_zone_3_temp_sensor:
+    name: VV - zone 3 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.bad_temperatur
+
+  vv_zone_3_aktuator_entity:
+    name: VV - zone 3 aktuator eller TRV
+    icon: mdi:valve
+    initial: switch.bad_gulvvarme
+
+  vv_zone_4_temp_sensor:
+    name: VV - zone 4 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.sovevaerelse_temperatur
+
+  vv_zone_4_aktuator_entity:
+    name: VV - zone 4 aktuator eller TRV
+    icon: mdi:valve
+    initial: climate.sovevaerelse_radiator
+
+  vv_zone_5_temp_sensor:
+    name: VV - zone 5 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.vaerelse_temperatur
+
+  vv_zone_5_aktuator_entity:
+    name: VV - zone 5 aktuator eller TRV
+    icon: mdi:valve
+    initial: climate.vaerelse_radiator
+
+  vv_zone_6_temp_sensor:
+    name: VV - zone 6 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.entre_temperatur
+
+  vv_zone_6_aktuator_entity:
+    name: VV - zone 6 aktuator eller TRV
+    icon: mdi:valve
+    initial: switch.entre_gulvvarme
+
+  vv_zone_7_temp_sensor:
+    name: VV - zone 7 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.zone_7_temperatur
+
+  vv_zone_7_aktuator_entity:
+    name: VV - zone 7 aktuator eller TRV
+    icon: mdi:valve
+    initial: switch.zone_7_gulvvarme
+
+  vv_zone_8_temp_sensor:
+    name: VV - zone 8 temperatur sensor
+    icon: mdi:home-thermometer
+    initial: sensor.zone_8_temperatur
+
+  vv_zone_8_aktuator_entity:
+    name: VV - zone 8 aktuator eller TRV
+    icon: mdi:valve
+    initial: switch.zone_8_gulvvarme
+
+  vv_notify_service:
+    name: VV - notifikation service
+    icon: mdi:bell
+    initial: persistent_notification.create
+
+  vv_sms_service:
+    name: VV - SMS service
+    icon: mdi:message-alert
+    max: 120
+    initial: rest_command.vv_gatewayapi_send_sms
+
+  vv_sms_sender:
+    name: VV - SMS afsender
+    icon: mdi:card-account-phone
+    max: 15
+    initial: VarmeAlarm
+
+  vv_sms_modtager:
+    name: VV - SMS modtagere
+    icon: mdi:cellphone
+    max: 255
+    initial: ""
+
+input_select:
+  vv_anlaegstype:
+    name: VV - anlaegstype
+    icon: mdi:radiator
+    options:
+      - Gulvvarme
+      - Radiatorer
+      - Blandet
+    initial: Blandet
+
+  vv_driftvalg:
+    name: VV - driftvalg
+    icon: mdi:heat-wave
+    options:
+      - Normal
+      - Spare
+      - Ferie
+      - Frostsikring
+      - Service
+    initial: Normal
+
+  vv_statistik_periode:
+    name: VV - statistik periode
+    icon: mdi:calendar-clock
+    options:
+      - 24 timer
+      - 7 dage
+    initial: 24 timer
+
+  vv_sms_prioritet:
+    name: VV - SMS prioritet
+    icon: mdi:message-badge
+    options:
+      - normal
+      - urgent
+    initial: normal
+
+input_number:
+  vv_zone_temp_min:
+    name: VV - min rumtemperatur
+    min: 5
+    max: 30
+    step: 0.5
+    unit_of_measurement: "C"
+    mode: box
+    initial: 18
+
+  vv_zone_temp_max:
+    name: VV - maks rumtemperatur
+    min: 10
+    max: 35
+    step: 0.5
+    unit_of_measurement: "C"
+    mode: box
+    initial: 24
+
+  vv_alarm_repeat_min:
+    name: VV - gentag alarm hvert minut
+    min: 5
+    max: 120
+    step: 5
+    unit_of_measurement: "min"
+    mode: box
+    initial: 30
+
+input_boolean:
+  vv_overvaagning_aktiv:
+    name: VV - overvaagning aktiv
+    icon: mdi:home-thermometer
+    initial: true
+
+  vv_notifikation_aktiv:
+    name: VV - notifikation aktiv
+    icon: mdi:bell-ring
+    initial: true
+
+  vv_sms_aktiv:
+    name: VV - SMS aktiv
+    icon: mdi:message-alert
+    initial: false
+
+  vv_alarm_latch:
+    name: VV - alarm aktiv
+    icon: mdi:alert-circle
+    initial: false
+
+  vv_alarm_ack:
+    name: VV - alarm kvitteret
+    icon: mdi:check-circle
+    initial: false
+
+  vv_alarm_muted:
+    name: VV - alarm paa pause
+    icon: mdi:bell-off
+    initial: false
+
+timer:
+  vv_alarm_mute_2h:
+    name: VV - alarm pause 2 timer
+    duration: "02:00:00"
+
+script:
+  vv_alarm_kvitter:
+    alias: VV alarm kvitter
+    mode: single
+    sequence:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.vv_alarm_ack
+
+  vv_alarm_pause_2h:
+    alias: VV alarm pause 2 timer
+    mode: single
+    sequence:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.vv_alarm_muted
+      - service: timer.start
+        target:
+          entity_id: timer.vv_alarm_mute_2h
+
+  vv_alarm_reset:
+    alias: VV alarm reset
+    mode: single
+    sequence:
+      - service: input_boolean.turn_off
+        target:
+          entity_id:
+            - input_boolean.vv_alarm_latch
+            - input_boolean.vv_alarm_ack
+            - input_boolean.vv_alarm_muted
+      - service: timer.cancel
+        target:
+          entity_id: timer.vv_alarm_mute_2h
+
+  vv_alarm_test:
+    alias: VV alarm test
+    mode: single
+    sequence:
+      - service: script.vv_send_alarm
+        data:
+          title: "Vandbaaret varme test"
+          message: >
+            Test fra Vandbaaret Varme. Status: {{ states('sensor.vv_status') }}.
+
+  vv_sms_test:
+    alias: VV SMS test
+    mode: single
+    sequence:
+      - service: script.vv_send_alarm
+        data:
+          title: "Vandbaaret varme SMS test"
+          message: >
+            SMS-test fra Vandbaaret Varme. Status: {{ states('sensor.vv_status') }}.
+
+  vv_send_alarm:
+    alias: VV send alarm
+    mode: queued
+    fields:
+      title:
+        description: Titel til alarmen
+      message:
+        description: Alarmtekst
+    sequence:
+      - variables:
+          notify_service: "{{ states('input_text.vv_notify_service') | trim }}"
+          sms_service: "{{ states('input_text.vv_sms_service') | trim }}"
+          sms_sender: "{{ states('input_text.vv_sms_sender') | trim }}"
+          sms_priority: "{{ states('input_select.vv_sms_prioritet') }}"
+          sms_targets: >
+            {% set raw = states('input_text.vv_sms_modtager') %}
+            {% set normalized = raw | replace(';', ',') | replace('\n', ',') %}
+            {{ normalized.split(',') | map('trim') | reject('eq', '') | list }}
+          alarm_title: "{{ title | default('Vandbaaret Varme') }}"
+          alarm_message: "{{ message | default('Alarm fra Vandbaaret Varme') }}"
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.vv_notifikation_aktiv
+                state: "on"
+              - condition: template
+                value_template: "{{ notify_service == 'persistent_notification.create' }}"
+            sequence:
+              - service: persistent_notification.create
+                data:
+                  title: "{{ alarm_title }}"
+                  message: "{{ alarm_message }}"
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.vv_notifikation_aktiv
+                state: "on"
+              - condition: template
+                value_template: "{{ notify_service.startswith('notify.') }}"
+            sequence:
+              - service: "{{ notify_service }}"
+                data:
+                  title: "{{ alarm_title }}"
+                  message: "{{ alarm_message }}"
+      - choose:
+          - conditions:
+              - condition: state
+                entity_id: input_boolean.vv_sms_aktiv
+                state: "on"
+              - condition: template
+                value_template: "{{ sms_targets | count > 0 }}"
+            sequence:
+              - repeat:
+                  for_each: "{{ sms_targets }}"
+                  sequence:
+                    - choose:
+                        - conditions:
+                            - condition: template
+                              value_template: "{{ sms_service == 'rest_command.vv_gatewayapi_send_sms' }}"
+                          sequence:
+                            - service: rest_command.vv_gatewayapi_send_sms
+                              data:
+                                recipient: "{{ repeat.item }}"
+                                sender: "{{ sms_sender }}"
+                                priority: "{{ sms_priority }}"
+                                message: "{{ alarm_message }}"
+                      default:
+                        - service: "{{ sms_service }}"
+                          data:
+                            target: "{{ repeat.item }}"
+                            message: "{{ alarm_message }}"
+
+template:
+  - sensor:
+      - name: VV zone 1 temperatur
+        unique_id: vv_zone_1_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_1_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_1_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 2 temperatur
+        unique_id: vv_zone_2_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_2_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_2_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 3 temperatur
+        unique_id: vv_zone_3_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_3_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_3_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 4 temperatur
+        unique_id: vv_zone_4_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_4_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_4_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 5 temperatur
+        unique_id: vv_zone_5_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_5_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_5_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 6 temperatur
+        unique_id: vv_zone_6_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_6_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_6_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 7 temperatur
+        unique_id: vv_zone_7_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_7_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_7_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 8 temperatur
+        unique_id: vv_zone_8_temperatur
+        unit_of_measurement: "C"
+        device_class: temperature
+        state_class: measurement
+        icon: mdi:home-thermometer
+        availability: "{{ states(states('input_text.vv_zone_8_temp_sensor')) | float(none) is not none }}"
+        state: "{{ states(states('input_text.vv_zone_8_temp_sensor')) | float | round(1) }}"
+
+      - name: VV zone 1 status
+        unique_id: vv_zone_1_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_1_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 2 status
+        unique_id: vv_zone_2_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_2_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 3 status
+        unique_id: vv_zone_3_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_3_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 4 status
+        unique_id: vv_zone_4_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_4_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 5 status
+        unique_id: vv_zone_5_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_5_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 6 status
+        unique_id: vv_zone_6_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_6_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 7 status
+        unique_id: vv_zone_7_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_7_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV zone 8 status
+        unique_id: vv_zone_8_status
+        icon: mdi:home-thermometer
+        state: >
+          {% set t = states('sensor.vv_zone_8_temperatur') | float(none) %}
+          {% set min = states('input_number.vv_zone_temp_min') | float(18) %}
+          {% set max = states('input_number.vv_zone_temp_max') | float(24) %}
+          {% if t is none %}Sensorfejl{% elif t < min %}For kold{% elif t > max %}For varm{% else %}OK{% endif %}
+
+      - name: VV status
+        unique_id: vv_status
+        icon: >
+          {% if is_state('binary_sensor.vv_alarm_aktiv', 'on') %}mdi:alert
+          {% elif is_state('binary_sensor.vv_zone_aktuator_aktiv', 'on') %}mdi:heat-wave
+          {% else %}mdi:check-circle
+          {% endif %}
+        state: >
+          {% if is_state('binary_sensor.vv_sensorfejl', 'on') %}Sensorfejl
+          {% elif is_state('input_boolean.vv_alarm_latch', 'on') %}Alarm
+          {% elif is_state('binary_sensor.vv_zone_temperatur_alarm', 'on') %}Komfortalarm
+          {% elif is_state('binary_sensor.vv_zone_aktuator_aktiv', 'on') %}Varme aktiv
+          {% else %}Normal{% endif %}
+
+      - name: VV alarm arsag
+        unique_id: vv_alarm_arsag
+        icon: mdi:alert-decagram
+        state: >
+          {% if is_state('binary_sensor.vv_sensorfejl', 'on') %}En eller flere sensorer mangler eller er utilgaengelige.
+          {% elif is_state('binary_sensor.vv_zone_temperatur_alarm', 'on') %}En eller flere zoner ligger uden for de valgte temperaturgraenser.
+          {% else %}Ingen alarm{% endif %}
+
+      - name: VV anbefaling
+        unique_id: vv_anbefaling
+        icon: mdi:lightbulb-on-outline
+        state: >
+          {% if is_state('binary_sensor.vv_sensorfejl', 'on') %}Kontroller sensor- og aktuatorfelter under Opsaetning.
+          {% elif is_state('binary_sensor.vv_zone_temperatur_alarm', 'on') %}Kontroller setpunkt, rumfoelerplacering og om aktuatoren faktisk aabner.
+          {% else %}Anlaegget ser normalt ud.{% endif %}
+
+      - name: VV drift score
+        unique_id: vv_drift_score
+        unit_of_measurement: "%"
+        state_class: measurement
+        icon: mdi:gauge
+        state: >
+          {% set score = 100 %}
+          {% if is_state('binary_sensor.vv_sensorfejl', 'on') %}{% set score = score - 35 %}{% endif %}
+          {% if is_state('binary_sensor.vv_zone_temperatur_alarm', 'on') %}{% set score = score - 15 %}{% endif %}
+          {{ [0, score] | max }}
+
+      - name: VV SMS status
+        unique_id: vv_sms_status
+        icon: mdi:message-check
+        state: >
+          {% set raw = states('input_text.vv_sms_modtager') %}
+          {% set normalized = raw | replace(';', ',') | replace('\n', ',') %}
+          {% set count = normalized.split(',') | map('trim') | reject('eq', '') | list | count %}
+          {% if not is_state('input_boolean.vv_sms_aktiv', 'on') %}Deaktiveret
+          {% elif count == 0 %}Modtager mangler
+          {% else %}Klar{% endif %}
+
+      - name: VV notifikation status
+        unique_id: vv_notifikation_status
+        icon: >
+          {% set service = states('input_text.vv_notify_service') | trim %}
+          {% if not is_state('input_boolean.vv_notifikation_aktiv', 'on') %}mdi:bell-off
+          {% elif service == 'persistent_notification.create' or service.startswith('notify.') %}mdi:bell-check
+          {% else %}mdi:bell-alert
+          {% endif %}
+        state: >
+          {% set service = states('input_text.vv_notify_service') | trim %}
+          {% if not is_state('input_boolean.vv_notifikation_aktiv', 'on') %}
+            Deaktiveret
+          {% elif service == 'persistent_notification.create' %}
+            Home Assistant intern besked
+          {% elif service.startswith('notify.') %}
+            Klar
+          {% elif service in ['unknown', 'unavailable', 'none', ''] %}
+            Service mangler
+          {% else %}
+            Ugyldig service
+          {% endif %}
+
+  - binary_sensor:
+      - name: VV zone 1 aktuator aaben
+        unique_id: vv_zone_1_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_1_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 2 aktuator aaben
+        unique_id: vv_zone_2_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_2_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 3 aktuator aaben
+        unique_id: vv_zone_3_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_3_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 4 aktuator aaben
+        unique_id: vv_zone_4_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_4_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 5 aktuator aaben
+        unique_id: vv_zone_5_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_5_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 6 aktuator aaben
+        unique_id: vv_zone_6_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_6_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 7 aktuator aaben
+        unique_id: vv_zone_7_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_7_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone 8 aktuator aaben
+        unique_id: vv_zone_8_aktuator_aaben
+        device_class: opening
+        icon: mdi:valve-open
+        state: >
+          {% set e = states('input_text.vv_zone_8_aktuator_entity') %}
+          {{ states(e) in ['on', 'open', 'heat', 'heating'] or state_attr(e, 'hvac_action') == 'heating' }}
+
+      - name: VV zone aktuator aktiv
+        unique_id: vv_zone_aktuator_aktiv
+        icon: mdi:valve
+        state: >
+          {{ is_state('binary_sensor.vv_zone_1_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_2_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_3_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_4_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_5_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_6_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_7_aktuator_aaben', 'on')
+              or is_state('binary_sensor.vv_zone_8_aktuator_aaben', 'on') }}
+
+      - name: VV sensorfejl
+        unique_id: vv_sensorfejl
+        device_class: problem
+        icon: mdi:connection
+        state: >
+          {{ states('sensor.vv_zone_1_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_2_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_3_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_4_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_5_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_6_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_7_temperatur') in ['unknown', 'unavailable', 'none', '']
+              or states('sensor.vv_zone_8_temperatur') in ['unknown', 'unavailable', 'none', ''] }}
+
+      - name: VV zone temperatur alarm
+        unique_id: vv_zone_temperatur_alarm
+        device_class: problem
+        icon: mdi:home-alert
+        state: >
+          {{ states('sensor.vv_zone_1_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_2_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_3_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_4_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_5_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_6_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_7_status') in ['For kold', 'For varm']
+              or states('sensor.vv_zone_8_status') in ['For kold', 'For varm'] }}
+
+      - name: VV alarm aktiv
+        unique_id: vv_alarm_aktiv
+        device_class: problem
+        icon: mdi:alert-circle
+        state: "{{ is_state('input_boolean.vv_alarm_latch', 'on') }}"
+
+automation:
+  - id: vv_alarm_taend
+    alias: VV alarm - taend ved fejl
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.vv_sensorfejl
+          - binary_sensor.vv_zone_temperatur_alarm
+        to: "on"
+        for:
+          minutes: 2
+    condition:
+      - condition: state
+        entity_id: input_boolean.vv_overvaagning_aktiv
+        state: "on"
+      - condition: template
+        value_template: "{{ states('input_select.vv_driftvalg') != 'Service' }}"
+      - condition: state
+        entity_id: input_boolean.vv_alarm_latch
+        state: "off"
+    action:
+      - service: input_boolean.turn_on
+        target:
+          entity_id: input_boolean.vv_alarm_latch
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.vv_alarm_ack
+      - service: script.vv_send_alarm
+        data:
+          title: "Vandbaaret varme alarm"
+          message: >
+            {{ states('sensor.vv_alarm_arsag') }}
+            Status: {{ states('sensor.vv_status') }}.
+            Anbefaling: {{ states('sensor.vv_anbefaling') }}
+
+  - id: vv_alarm_sluk
+    alias: VV alarm - nulstil naar normal
+    mode: single
+    trigger:
+      - platform: state
+        entity_id:
+          - binary_sensor.vv_sensorfejl
+          - binary_sensor.vv_zone_temperatur_alarm
+        to: "off"
+        for:
+          minutes: 5
+    condition:
+      - condition: state
+        entity_id: input_boolean.vv_alarm_latch
+        state: "on"
+      - condition: template
+        value_template: >
+          {{ is_state('binary_sensor.vv_sensorfejl', 'off')
+              and is_state('binary_sensor.vv_zone_temperatur_alarm', 'off') }}
+    action:
+      - service: script.vv_alarm_reset
+      - service: script.vv_send_alarm
+        data:
+          title: "Vandbaaret varme normal"
+          message: >
+            Anlaegget er tilbage i normal drift.
+
+  - id: vv_alarm_gentag
+    alias: VV alarm - gentag aktiv alarm
+    mode: single
+    trigger:
+      - platform: time_pattern
+        minutes: "/5"
+    condition:
+      - condition: state
+        entity_id: input_boolean.vv_overvaagning_aktiv
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.vv_alarm_latch
+        state: "on"
+      - condition: state
+        entity_id: input_boolean.vv_alarm_ack
+        state: "off"
+      - condition: state
+        entity_id: input_boolean.vv_alarm_muted
+        state: "off"
+      - condition: template
+        value_template: >
+          {% set repeat = states('input_number.vv_alarm_repeat_min') | int(30) %}
+          {{ repeat > 0 and now().minute % repeat == 0 }}
+    action:
+      - service: script.vv_send_alarm
+        data:
+          title: "Vandbaaret varme alarm stadig aktiv"
+          message: >
+            {{ states('sensor.vv_alarm_arsag') }}
+            Anbefaling: {{ states('sensor.vv_anbefaling') }}
+
+  - id: vv_alarm_pause_timer_slut
+    alias: VV alarm - pause slut
+    mode: single
+    trigger:
+      - platform: event
+        event_type: timer.finished
+        event_data:
+          entity_id: timer.vv_alarm_mute_2h
+    action:
+      - service: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.vv_alarm_muted

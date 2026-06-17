@@ -1,0 +1,32 @@
+# Tilfoej disse dele til din Home Assistant configuration.yaml.
+
+homeassistant:
+  packages: !include_dir_named packages
+
+lovelace:
+  dashboards:
+    vandbaaret-varme-dashboard:
+      mode: yaml
+      title: Vandbaaret Varme
+      icon: mdi:home-thermometer
+      show_in_sidebar: true
+      filename: lovelace/dashboards/centralvarme_dashboard.yaml
+
+# Valgfri SMS via GatewayAPI, hvis samme model som Varmeoptimering bruges.
+rest_command:
+  vv_gatewayapi_send_sms:
+    url: "https://messaging.gatewayapi.com/mobile/single"
+    method: post
+    content_type: "application/json"
+    headers:
+      Authorization: !secret gatewayapi_authorization_header
+      Accept: "application/json"
+    payload: >
+      {% set clean_recipient = recipient | string | replace('+', '') | replace(' ', '') | replace('-', '') %}
+      {{ {
+        'sender': sender,
+        'message': message,
+        'recipient': clean_recipient | int(0),
+        'label': 'vandbaaret_varme',
+        'priority': priority
+      } | to_json }}
